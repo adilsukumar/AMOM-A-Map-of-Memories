@@ -100,8 +100,8 @@ Deployment:   Vercel
 
 ### Run Locally
 ```bash
-git clone https://github.com/adilsukumar/AMOM-A_Map_Of_Memories.git
-cd AMOM-A_Map_Of_Memories
+git clone https://github.com/adilsukumar/AMOM-A-Map-of-Memories.git
+cd AMOM-A-Map-of-Memories
 npm install
 npm run dev
 # Open http://localhost:8080
