@@ -1,143 +1,108 @@
-# 🗺️ A Map Of Memories (AMOM)
+<p><picture><source media="(max-width: 600px)" srcset="assets/readme/hero-mobile.svg"/><img src="assets/readme/hero.svg" width="100%" alt="AMOM: A Map Of Memories. Every place holds a story. Animated conceptual map pins, not real user data."/></picture></p>
 
-*Just someone who remembered something.*
+<p align="center"><a href="#the-idea">The idea</a> · <a href="#from-place-to-memory">Workflow</a> · <a href="#the-map-experience">Map</a> · <a href="#run-locally">Run locally</a> · <a href="#visibility-and-data-flow">Visibility</a> · <a href="#explore-the-source">Source</a></p>
 
----
+## <img src="assets/readme/icon-story.svg" width="30" height="30" alt=""/> The idea
 
-## 🌟 What is AMOM?
+I built A Map Of Memories around a simple thought: places mean more than their coordinates. A café can hold a conversation you still remember. A street can take you back years. AMOM gives those moments a place on an interactive map, so people can revisit their own stories and discover the ones others choose to share.
 
-**A Map Of Memories** is a living, breathing world map — built entirely out of human stories.
+<p><picture><source media="(max-width: 600px)" srcset="assets/readme/features-mobile.svg"/><img src="assets/readme/features.svg" width="100%" alt="Explore a location, pin a memory, read stories and choose visibility."/></picture></p>
 
-Anyone, anywhere, can drop a pin on the exact spot where something happened to them and write about it. A street corner in Tokyo where they got lost and found something better. A beach in Kerala where they said goodbye. A café in Paris where they fell in love. A rooftop in their hometown where they used to sit alone and think.
+Explore public memories without contributing, or sign in to create your own. The creation popup starts with private visibility; sharing publicly is a choice.
 
-Those stories sit on the map, visible to everyone. And anyone passing through — whether they're planning a trip, reminiscing about a place, or just wandering the map out of curiosity — can read them.
+## <img src="assets/readme/icon-pin.svg" width="30" height="30" alt=""/> From place to memory
 
-AMOM is not a photo dump. It's not a travel blog. It's not a private diary.
+<p><picture><source media="(max-width: 600px)" srcset="assets/readme/workflow-mobile.svg"/><img src="assets/readme/workflow.svg" width="100%" alt="Find a place, sign in and choose coordinates, add the story details, then save and revisit."/></picture></p>
 
-It's a collective memory of the world, written by the people who actually lived in it.
+Memories carry a title, description, coordinates, color and visibility flag, with a category and optional photo. Categories include love, travel, food, friendship, family, adventure, memory and other. A memory can be opened from its marker or the memories panel.
 
----
+## <img src="assets/readme/icon-map.svg" width="30" height="30" alt=""/> The map experience
 
-## 💡 The Idea Behind It
+<p><picture><source media="(max-width: 600px)" srcset="assets/readme/experience-mobile.svg"/><img src="assets/readme/experience.svg" width="100%" alt="Intensity-based clusters, multiple map layers and memory management."/></picture></p>
 
-Every place on Earth has been felt by someone. Every street, every mountain, every unremarkable parking lot has a story attached to it that never got told — because there was nowhere to tell it.
+Leaflet powers the map and marker clustering. More densely populated clusters use different sizes and colors; individual markers reflect the memory color. Hover previews show story context, while a click opens the detail card.
 
-AMOM exists to change that.
+Location search uses Nominatim. The component configures OpenStreetMap, Esri, CARTO and other tile layers, and supports browser geolocation when permission is granted. Availability and coverage depend on those services.
 
-The default is public. You share your memory with the world, and the world can read it. If something is too personal, you can keep it private — but the spirit of AMOM is openness. It's about saying *"I was here, and this is what it meant to me"* — and letting a stranger on the other side of the world stumble upon that and feel something.
+The current memory hook fetches on load and auth changes, and updates this client after successful writes. It does not subscribe to database changes from other users, so this README does not promise automatic cross-client live updates.
 
-That's the whole point.
+## <img src="assets/readme/icon-terminal.svg" width="30" height="30" alt=""/> Run locally
 
----
+<p><picture><source media="(max-width: 600px)" srcset="assets/readme/environment-mobile.svg"/><img src="assets/readme/environment.svg" width="100%" alt="Configure a compatible Supabase backend and start the Vite app on localhost port 8080."/></picture></p>
 
-## ✨ How It Works
-
-### For Everyone (no account needed)
-- Open the map and explore memories pinned across the world
-- Hover over any marker to get a quick preview of the story
-- Click to read the full memory — who wrote it, when, what happened there
-- Search for any city, street, or landmark and see what memories exist there
-- Zoom all the way in to street level and discover stories on specific corners
-
-### For Contributors (free account)
-- Click anywhere on the map to pin a memory to that exact location
-- Write your story — what happened, what it felt like, why that place matters
-- Choose a category: Love, Travel, Food, Adventure, Family, Work, and more
-- Pick a color that feels right for that memory
-- Set it to **public** (default) so others can read it, or private if it's just for you
-- Your memory appears on the map instantly, for anyone in the world to find
-
----
-
-## 🗺️ The Experience
-
-The map is the product. Not a feed, not a timeline — a map.
-
-You zoom into a city you've never been to and suddenly you're reading about a moment someone had there in 2019. You search your hometown and find a memory pinned to a street you grew up on, written by someone you've never met. You drop a pin on a place that changed your life and know that someday, someone will find it.
-
-That's AMOM.
-
-- **Intensity-based clusters** — areas with more memories glow brighter, drawing you in
-- **Hover previews** — pause on any marker for a second and get a glimpse of the story
-- **Full detail on click** — zoom in and read the whole thing
-- **Multiple map views** — street detail, satellite, buildings — see the world the way you want
-- **Real-time** — memories appear the moment they're posted, no refresh needed
-
----
-
-## 🔐 Privacy
-
-Most memories on AMOM are public — that's what makes the platform alive.
-
-But you're in control. If a memory is too personal, too raw, or just meant for you — mark it private. It stays on your map, visible only to you. Nobody else sees it.
-
-The platform respects that line completely.
-
----
-
-## 🚀 Try It
-
-**Live**: [amom-a-map-of-memories.vercel.app](https://amom-a-map-of-memories.vercel.app)
-
-1. Open the map
-2. Explore what's already there — zoom in anywhere, read what people left behind
-3. Sign up and drop your first pin
-4. Write something real
-
----
-
-## 🛠️ For Developers
-
-### Tech Stack
-```
-Frontend:     React 18 + TypeScript + Vite
-Styling:      Tailwind CSS + shadcn/ui
-Maps:         Leaflet + React Leaflet + MarkerCluster
-Database:     Supabase (PostgreSQL + Real-time)
-Auth:         Supabase Auth with RLS
-Deployment:   Vercel
-```
-
-### Run Locally
 ```bash
 git clone https://github.com/adilsukumar/AMOM-A-Map-of-Memories.git
 cd AMOM-A-Map-of-Memories
 npm install
-npm run dev
-# Open http://localhost:8080
 ```
 
-Add a `.env` file:
-```
+Create `.env` in the repository root, using [.env.example](.env.example):
+
+```env
 VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-### Project Structure
-```
-src/
-├── components/       # UI + map components
-├── hooks/            # useMemories and other hooks
-├── integrations/     # Supabase client + types
-├── lib/              # Utilities
-└── pages/            # Route pages
+```bash
+npm run dev
 ```
 
----
+Open `http://localhost:8080`, or the address printed by Vite. Auth and memory operations require a compatible Supabase backend; the client’s placeholder values are not a working local database.
 
-## 📄 License
+The source expects a `memories` table matching [Memory](src/integrations/supabase/types.ts), including ownership, title, description, coordinates, color, visibility, photo URL, category and timestamps. Some profile operations also expect profile data. This repository does not include database migrations or RLS policy SQL, so a new Supabase project needs that backend setup separately.
 
-Open for personal use, learning, and educational purposes. For commercial use, reach out.
+### Build and checks
 
----
+```bash
+npm run lint
+npm run build
+npm run preview
+```
 
-## 🤝 Contact
+The project also declares `npm run build:dev`. These are the existing scripts; there is no dedicated web test script.
 
-- **Email**: adilsukumar24@gmail.com
-- **LinkedIn**: [Adil Sukumar](https://www.linkedin.com/in/adilsukumar)
+### Stack and project structure
 
----
+| Role | Technology |
+|---|---|
+| Frontend | React 18, TypeScript, Vite |
+| UI | Tailwind CSS, shadcn/ui and Radix components |
+| Map | Leaflet, React Leaflet and MarkerCluster |
+| Backend | Supabase client and Supabase Auth |
+| Native wrappers | Capacitor with Android and iOS project folders |
 
-**© 2025 Adil Sukumar**
+```text
+src/components/           map, memory, profile and UI components
+src/hooks/useMemories.ts   memory queries and writes
+src/contexts/             authentication state
+src/integrations/         Supabase client and memory types
+src/pages/                landing, map and authentication routes
+android/ and ios/         Capacitor native wrapper projects
+capacitor.config.ts       app identity and dist web directory
+```
 
-*Made for everyone who believes every place has a story worth telling.*
+The native folders are included in the repository; they do not by themselves establish a published mobile-app release.
+
+## <img src="assets/readme/icon-local.svg" width="30" height="30" alt=""/> Visibility and data flow
+
+<p><picture><source media="(max-width: 600px)" srcset="assets/readme/privacy-mobile.svg"/><img src="assets/readme/privacy.svg" width="100%" alt="Supabase-backed auth and records, server-side policy requirements and external map requests."/></picture></p>
+
+The client queries public memories plus the signed-in user’s own records. That filter expresses the interface’s intent; enforcement must come from the connected database’s row-level security policies. A private flag in frontend code alone is not an access-control guarantee.
+
+Memory content, coordinates and photo data are submitted to the configured Supabase backend. Map tiles, place searches and optional browser geolocation have their own data flows. The current hook also writes memory payloads and responses to the browser console during development.
+
+Before using a new backend, verify anonymous users can read only public records and that users can read or modify only the private records they own. Keep service-role keys out of the frontend; the configured browser key is the Supabase anonymous client key.
+
+## <img src="assets/readme/icon-docs.svg" width="30" height="30" alt=""/> Explore the source
+
+<p align="center"><a href="src/components/MapView.tsx"><img src="assets/readme/doc-0.svg" width="430" alt="Map experience: Layers, clusters, markers and location search"/></a> <a href="src/hooks/useMemories.ts"><img src="assets/readme/doc-1.svg" width="430" alt="Memory workflow: Fetch, create, edit and delete records"/></a> <a href="src/components/MapMemoryPopup.tsx"><img src="assets/readme/doc-2.svg" width="430" alt="Pin creation: Coordinates, story, photo and visibility"/></a> <a href="src/contexts/AuthContext.tsx"><img src="assets/readme/doc-3.svg" width="430" alt="Authentication: Supabase sessions and account actions"/></a></p>
+
+See [MapPage](src/pages/MapPage.tsx) for the main workflow, [MemoryCard](src/components/MemoryCard.tsx) for details and edits, and [MemoriesPanel](src/components/MemoriesPanel.tsx) for the story list.
+
+## <img src="assets/readme/icon-file.svg" width="30" height="30" alt=""/> License and credits
+
+This repository uses a [proprietary personal-use license](LICENSE). Read that file for the permitted uses and restrictions; contact [Adil Sukumar](mailto:adilsukumar24@gmail.com) for licensing questions. The existing license credits Mayank Mehra and Snehal Dixit for contributions.
+
+<p><picture><source media="(max-width: 600px)" srcset="assets/readme/closing-mobile.svg"/><img src="assets/readme/closing.svg" width="100%" alt="Somewhere on Earth, something mattered. Just someone who remembered something. A Map Of Memories."/></picture></p>
+
+<p align="center"><a href="https://github.com/adilsukumar/AMOM-A-Map-of-Memories/issues">Discuss an improvement</a> · <a href="src/components/MapView.tsx">Explore the map code</a> · <a href="https://www.adilsukumar.xyz/">Meet the builder</a></p>
