@@ -24,6 +24,32 @@ jobs:
             echo "::error::Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in repository secrets."
             exit 1
           fi
+          python3 - <<'PY'
+          import os, json, base64, time, urllib.parse
+          url = os.environ["SUPABASE_URL"].strip()
+          key = os.environ["SUPABASE_ANON_KEY"].strip()
+          if url != os.environ["SUPABASE_URL"] or key != os.environ["SUPABASE_ANON_KEY"]:
+              raise SystemExit("::error::Supabase secrets contain leading/trailing whitespace. Re-save both values without whitespace.")
+          parsed = urllib.parse.urlparse(url)
+          if parsed.scheme != "https" or not parsed.hostname or parsed.path not in ("", "/"):
+              raise SystemExit("::error::VITE_SUPABASE_URL must be the HTTPS project base URL, without an API path.")
+          if key.startswith("eyJ"):
+              try:
+                  part = key.split(".")[1]
+                  payload = json.loads(base64.urlsafe_b64decode(part + "=" * (-len(part) % 4)))
+              except Exception:
+                  raise SystemExit("::error::The anon key is not a complete JWT. Copy the entire legacy anon key.")
+              if payload.get("role") != "anon":
+                  raise SystemExit("::error::Use the project's legacy anon key, not a service-role key or JWT signing secret.")
+              if payload.get("exp", float("inf")) <= time.time():
+                  raise SystemExit("::error::The configured anon key has expired. Copy the active project's anon key.")
+              ref = payload.get("ref")
+              if ref and parsed.hostname.endswith(".supabase.co") and parsed.hostname.split(".")[0] != ref:
+                  raise SystemExit("::error::The project URL and anon key belong to different Supabase projects.")
+          elif not key.startswith("sb_publishable_"):
+              raise SystemExit("::error::Use an anon or publishable client API key.")
+          print("Supabase configuration format validated; secret values are not logged.")
+          PY
           curl --fail --silent --show-error --retry 3 --retry-all-errors \
             --connect-timeout 10 --max-time 30 \
             "${SUPABASE_URL%/}/rest/v1/" \
