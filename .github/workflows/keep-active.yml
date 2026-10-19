@@ -54,7 +54,7 @@ jobs:
           trap 'rm -f "$response_file"' EXIT
           if curl --fail-with-body --silent --show-error --retry 3 --retry-all-errors \
             --connect-timeout 10 --max-time 30 \
-            "${SUPABASE_URL%/}/rest/v1/" \
+            "${SUPABASE_URL%/}/rest/v1/memories?select=id&is_public=eq.true&limit=0" \
             -H "apikey: $SUPABASE_ANON_KEY" \
             -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
             --output "$response_file"; then
