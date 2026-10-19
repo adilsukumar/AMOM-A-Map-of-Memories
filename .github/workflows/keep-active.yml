@@ -50,10 +50,27 @@ jobs:
               raise SystemExit("::error::Use an anon or publishable client API key.")
           print("Supabase configuration format validated; secret values are not logged.")
           PY
-          curl --fail --silent --show-error --retry 3 --retry-all-errors \
+          response_file=$(mktemp)
+          trap 'rm -f "$response_file"' EXIT
+          if curl --fail-with-body --silent --show-error --retry 3 --retry-all-errors \
             --connect-timeout 10 --max-time 30 \
             "${SUPABASE_URL%/}/rest/v1/" \
             -H "apikey: $SUPABASE_ANON_KEY" \
             -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
-            --output /dev/null
-          echo "Supabase REST endpoint responded successfully."
+            --output "$response_file"; then
+            echo "Supabase REST endpoint responded successfully."
+          else
+            RESPONSE_FILE="$response_file" python3 - <<'PY'
+          import os, json
+          try:
+              with open(os.environ["RESPONSE_FILE"]) as response:
+                  error = json.load(response)
+              text = json.dumps({field: error[field] for field in ("code", "message", "error", "hint") if field in error}, ensure_ascii=True)
+              for name in ("SUPABASE_URL", "SUPABASE_ANON_KEY"):
+                  text = text.replace(os.environ[name], "[REDACTED]")
+              print("Supabase error details: " + text[:1000])
+          except Exception:
+              print("Supabase returned no JSON error details.")
+          PY
+            exit 1
+          fi
