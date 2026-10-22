@@ -2,6 +2,8 @@
 
 <p align="center"><a href="#the-idea">The idea</a> · <a href="#from-place-to-memory">Workflow</a> · <a href="#the-map-experience">Map</a> · <a href="#run-locally">Run locally</a> · <a href="#visibility-and-data-flow">Visibility</a> · <a href="#explore-the-source">Source</a></p>
 
+<a id="the-idea"></a>
+
 ## <img src="assets/readme/icon-story.svg" width="30" height="30" alt=""/> The idea
 
 I built A Map Of Memories around a simple thought: places mean more than their coordinates. A café can hold a conversation you still remember. A street can take you back years. AMOM gives those moments a place on an interactive map, so people can revisit their own stories and discover the ones others choose to share.
@@ -10,11 +12,15 @@ I built A Map Of Memories around a simple thought: places mean more than their c
 
 Explore public memories without contributing, or sign in to create your own. The creation popup starts with private visibility; sharing publicly is a choice.
 
+<a id="from-place-to-memory"></a>
+
 ## <img src="assets/readme/icon-pin.svg" width="30" height="30" alt=""/> From place to memory
 
 <p><picture><source media="(max-width: 600px)" srcset="assets/readme/workflow-mobile.svg"/><img src="assets/readme/workflow.svg" width="100%" alt="Find a place, sign in and choose coordinates, add the story details, then save and revisit."/></picture></p>
 
 Memories carry a title, description, coordinates, color and visibility flag, with a category and optional photo. Categories include love, travel, food, friendship, family, adventure, memory and other. A memory can be opened from its marker or the memories panel.
+
+<a id="the-map-experience"></a>
 
 ## <img src="assets/readme/icon-map.svg" width="30" height="30" alt=""/> The map experience
 
@@ -25,6 +31,8 @@ Leaflet powers the map and marker clustering. More densely populated clusters us
 Location search uses Nominatim. The component configures OpenStreetMap, Esri, CARTO and other tile layers, and supports browser geolocation when permission is granted. Availability and coverage depend on those services.
 
 The current memory hook fetches on load and auth changes, and updates this client after successful writes. It does not subscribe to database changes from other users, so this README does not promise automatic cross-client live updates.
+
+<a id="run-locally"></a>
 
 ## <img src="assets/readme/icon-terminal.svg" width="30" height="30" alt=""/> Run locally
 
@@ -83,6 +91,8 @@ capacitor.config.ts       app identity and dist web directory
 
 The native folders are included in the repository; they do not by themselves establish a published mobile-app release.
 
+<a id="visibility-and-data-flow"></a>
+
 ## <img src="assets/readme/icon-local.svg" width="30" height="30" alt=""/> Visibility and data flow
 
 <p><picture><source media="(max-width: 600px)" srcset="assets/readme/privacy-mobile.svg"/><img src="assets/readme/privacy.svg" width="100%" alt="Supabase-backed auth and records, server-side policy requirements and external map requests."/></picture></p>
@@ -92,6 +102,8 @@ The client queries public memories plus the signed-in user’s own records. That
 Memory content, coordinates and photo data are submitted to the configured Supabase backend. Map tiles, place searches and optional browser geolocation have their own data flows. The current hook also writes memory payloads and responses to the browser console during development.
 
 Before using a new backend, verify anonymous users can read only public records and that users can read or modify only the private records they own. Keep service-role keys out of the frontend; the configured browser key is the Supabase anonymous client key.
+
+<a id="explore-the-source"></a>
 
 ## <img src="assets/readme/icon-docs.svg" width="30" height="30" alt=""/> Explore the source
 
